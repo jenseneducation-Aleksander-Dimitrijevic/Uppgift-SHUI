@@ -29,7 +29,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-/deep/ .main img {
-  display: none;
+/deep/ .main {
+  img {
+    display: none;
+  }
 }
 </style>

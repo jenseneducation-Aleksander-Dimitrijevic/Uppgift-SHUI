@@ -1,7 +1,9 @@
 <template>
   <div id="app">
     <app-header />
-    <router-view />
+    <vue-page-transition name="fade-in-right">
+      <router-view />
+    </vue-page-transition>
     <app-footer />
   </div>
 </template>
