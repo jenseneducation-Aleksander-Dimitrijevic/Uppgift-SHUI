@@ -4,7 +4,8 @@
       <form @submit.prevent>
         <input type="text" placeholder="Användarnamn" />
         <input type="password" placeholder="Lösenord" />
-        <button>Logga in</button>
+        <input type="password" placeholder="Repetera lösenord" />
+        <button>Registrera</button>
       </form>
     </app-content>
   </div>
@@ -13,7 +14,7 @@
 <script>
 import AppContent from "@/components/main/AppContent.vue";
 export default {
-  name: "Login",
+  name: "Signup",
   components: {
     AppContent,
   },
