@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div @click="$router.push({ name: 'login' })">
     <app-content />
   </div>
 </template>
