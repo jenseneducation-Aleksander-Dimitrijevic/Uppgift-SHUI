@@ -1,6 +1,5 @@
 form {
   width: 100%;
-  padding: 0 2rem;
 
   input,
   button {
@@ -24,4 +23,18 @@ form {
     font-weight: bold;
     background: #fff;
   }
+}
+
+.btn-primary {
+  left: 50%;
+  width: 90%;
+  bottom: 1rem;
+  color: #fff;
+  cursor: pointer;
+  position: fixed;
+  border-radius: 3px;
+  padding: 15px 10px;
+  background: $darkBlue;
+  border: 2px solid #fff;
+  transform: translate3d(-50%, 0, 0);
 }
