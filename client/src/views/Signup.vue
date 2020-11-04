@@ -24,13 +24,13 @@ export default {
   components: {
     AppContent,
   },
-  setup() {
+  setup(_, { root }) {
     let credentials = reactive({
       username: null,
       password: null,
       repeatPassword: null,
     });
-    const { handleSubmit } = useFormSubmit("/api/register", credentials);
+    const { handleSubmit } = useFormSubmit("/api/register", credentials, root);
     return { ...toRefs(credentials), handleSubmit };
   },
 };
