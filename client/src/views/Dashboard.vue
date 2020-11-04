@@ -2,6 +2,7 @@
   <div v-if="user">
     <app-content>
       <h1>Hello there, {{ user.username }}</h1>
+      <button class="btn-primary">Add strems</button>
     </app-content>
   </div>
 </template>

@@ -2,14 +2,15 @@
   <div>
     <app-content>
       <form @submit.prevent="handleSubmit">
-        <input type="text" v-model="username" placeholder="Användarnamn" />
-        <input type="password" v-model="password" placeholder="Lösenord" />
+        <input type="text" v-model="username" placeholder="Username" />
+        <input type="password" v-model="password" placeholder="Password" />
         <input
           type="password"
           v-model="repeatPassword"
-          placeholder="Repetera lösenord"
+          placeholder="Confirm password"
         />
-        <button>Registrera</button>
+        <button>Register</button>
+        <router-link to="/login">Already have an account?</router-link>
       </form>
     </app-content>
   </div>
@@ -36,4 +37,10 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+a {
+  color: #fff;
+  display: block;
+  text-align: center;
+}
+</style>

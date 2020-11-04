@@ -13,6 +13,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.main {
+  padding: 0 2rem;
+}
 img {
   width: 80px;
   margin: auto;
