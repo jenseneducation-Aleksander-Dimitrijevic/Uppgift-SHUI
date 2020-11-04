@@ -1,12 +1,16 @@
 <template>
   <div>
-    <h1>Home</h1>
+    <app-content />
   </div>
 </template>
 
 <script>
+import AppContent from "@/components/main/AppContent.vue";
 export default {
   name: "Home",
+  components: {
+    AppContent,
+  },
 };
 </script>
 
