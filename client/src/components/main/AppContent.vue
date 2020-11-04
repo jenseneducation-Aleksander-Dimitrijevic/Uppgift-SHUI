@@ -1,7 +1,7 @@
 <template>
   <main class="main">
     <img :src="require('@/assets/app-logo.png')" alt="app logo" />
-    <h1>Flow freely</h1>
+    <h1 v-show="!$route.meta.requiresAuth">Flow freely</h1>
     <slot />
   </main>
 </template>
