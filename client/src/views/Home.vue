@@ -14,4 +14,8 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+/deep/ .main img {
+  animation: pulse 1s infinite;
+}
+</style>
