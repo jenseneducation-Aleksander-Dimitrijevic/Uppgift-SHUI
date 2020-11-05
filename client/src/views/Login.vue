@@ -1,13 +1,11 @@
 <template>
-  <div>
-    <app-content>
-      <form @submit.prevent="handleSubmit">
-        <input type="text" v-model="username" placeholder="Username" />
-        <input type="password" v-model="password" placeholder="Password" />
-        <button>Log in</button>
-      </form>
-    </app-content>
-  </div>
+  <app-content>
+    <form @submit.prevent="handleSubmit">
+      <input type="text" v-model="username" placeholder="Username" />
+      <input type="password" v-model="password" placeholder="Password" />
+      <button>Log in</button>
+    </form>
+  </app-content>
 </template>
 
 <script>

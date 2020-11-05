@@ -1,7 +1,5 @@
 <template>
-  <div @click="$router.push({ name: 'login' })">
-    <app-content />
-  </div>
+  <app-content />
 </template>
 
 <script>
@@ -14,8 +12,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-/deep/ .main img {
-  animation: pulse 1s infinite;
-}
-</style>
+<style lang="scss" scoped></style>

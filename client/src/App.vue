@@ -1,20 +1,18 @@
 <template>
   <div id="app">
-    <app-header />
-    <vue-page-transition name="fade-in-right">
-      <router-view />
-    </vue-page-transition>
+    <app-bar />
+    <router-view />
     <app-footer />
   </div>
 </template>
 
 <script>
-import AppHeader from "@/components/layout/AppHeader.vue";
+import AppBar from "@/components/layout/AppBar.vue";
 import AppFooter from "@/components/layout/AppFooter.vue";
 export default {
   name: "App",
   components: {
-    AppHeader,
+    AppBar,
     AppFooter,
   },
 };
@@ -27,6 +25,5 @@ export default {
   height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
 }
 </style>

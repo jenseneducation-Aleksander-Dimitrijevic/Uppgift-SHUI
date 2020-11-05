@@ -26,15 +26,12 @@ form {
 }
 
 .btn-primary {
-  left: 50%;
-  width: 90%;
-  bottom: 1rem;
+  width: 100%;
   color: #fff;
   cursor: pointer;
-  position: fixed;
+  margin-top: 2rem;
   border-radius: 3px;
   padding: 15px 10px;
   background: $darkBlue;
   border: 2px solid #fff;
-  transform: translate3d(-50%, 0, 0);
 }

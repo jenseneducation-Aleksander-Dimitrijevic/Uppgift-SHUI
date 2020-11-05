@@ -1,19 +1,17 @@
 <template>
-  <div>
-    <app-content>
-      <form @submit.prevent="handleSubmit">
-        <input type="text" v-model="username" placeholder="Username" />
-        <input type="password" v-model="password" placeholder="Password" />
-        <input
-          type="password"
-          v-model="repeatPassword"
-          placeholder="Confirm password"
-        />
-        <button>Register</button>
-        <router-link to="/login">Already have an account?</router-link>
-      </form>
-    </app-content>
-  </div>
+  <app-content>
+    <form @submit.prevent="handleSubmit">
+      <input type="text" v-model="username" placeholder="Username" />
+      <input type="password" v-model="password" placeholder="Password" />
+      <input
+        type="password"
+        v-model="repeatPassword"
+        placeholder="Confirm password"
+      />
+      <button>Register</button>
+      <router-link to="/login">Already have an account?</router-link>
+    </form>
+  </app-content>
 </template>
 
 <script>

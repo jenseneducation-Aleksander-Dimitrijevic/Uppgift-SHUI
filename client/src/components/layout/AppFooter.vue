@@ -12,6 +12,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.footer {
+  margin-top: auto;
+}
 img {
   width: 100%;
   display: block;

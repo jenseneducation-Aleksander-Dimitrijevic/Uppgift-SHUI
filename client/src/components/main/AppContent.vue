@@ -1,5 +1,8 @@
 <template>
-  <main class="main">
+  <main
+    class="main"
+    @click="$route.name === 'Home' && $router.push({ name: 'login' })"
+  >
     <img :src="require('@/assets/app-logo.png')" alt="app logo" />
     <h1 v-show="!$route.meta.requiresAuth">Flow freely</h1>
     <slot />
@@ -14,7 +17,12 @@ export default {
 
 <style lang="scss" scoped>
 .main {
+  top: 50%;
+  left: 50%;
+  width: 100%;
   padding: 0 2rem;
+  position: absolute;
+  transform: translate3d(-50%, -50%, 0);
 }
 img {
   width: 80px;
