@@ -1,6 +1,6 @@
 <template>
   <div v-if="user">
-    <add-stream />
+    <Settings />
     <app-content>
       <h1>Hello there, {{ user.username }}</h1>
       <button class="btn-primary">Add streams</button>
@@ -11,13 +11,13 @@
 <script>
 import axios from "axios";
 import AppContent from "@/components/main/AppContent.vue";
-import AddStream from "@/components/main/AddStream.vue";
+import Settings from "@/components/main/Settings.vue";
 import { ref, onMounted } from "@vue/composition-api";
 export default {
   name: "Dashboard",
   components: {
     AppContent,
-    AddStream,
+    Settings,
   },
   setup() {
     const user = ref(null);
