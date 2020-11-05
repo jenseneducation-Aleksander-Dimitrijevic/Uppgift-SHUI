@@ -2,7 +2,7 @@
   <div v-if="user">
     <app-content>
       <h1>Hello there, {{ user.username }}</h1>
-      <button class="btn-primary">Add strems</button>
+      <button class="btn-primary">Add streams</button>
     </app-content>
   </div>
 </template>
@@ -20,7 +20,7 @@ export default {
     const user = ref(null);
     onMounted(async () => {
       const RESPONSE = await axios.get("/api/dashboard");
-      user.value = RESPONSE.data;
+      user.value = RESPONSE.data.user;
     });
 
     return { user };
