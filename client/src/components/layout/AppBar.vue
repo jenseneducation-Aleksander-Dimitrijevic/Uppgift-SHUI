@@ -8,7 +8,7 @@
           ? $router.push({ name: 'Home' }).catch(() => {})
           : addStream()
       "
-      :class="{ addShadow: isStream }"
+      :class="{ addShadow: isOpen }"
     />
     <span
       class="lnr lnr-user user-action"
@@ -17,7 +17,7 @@
     ></span>
     <span
       class="lnr lnr-exit user-action"
-      v-show="$route.meta.requiresAuth && !isStream"
+      v-show="$route.meta.requiresAuth && !isOpen"
       @click="logout"
     ></span>
   </nav>
@@ -33,13 +33,13 @@ export default {
       location.reload();
     };
 
-    const isStream = computed(() => root.$store.state.isStream);
+    const isOpen = computed(() => root.$store.state.isOpen);
 
     const addStream = () => {
-      root.$store.commit("TOGGLE_ADD_STREAM");
+      root.$store.commit("TOGGLE_SETTINGS");
     };
 
-    return { logout, addStream, isStream };
+    return { logout, addStream, isOpen };
   },
 };
 </script>

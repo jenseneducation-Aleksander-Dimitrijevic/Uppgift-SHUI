@@ -5,11 +5,15 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    isStream: false,
+    isOpen: false,
+    isForm: false,
   },
   mutations: {
+    TOGGLE_SETTINGS(state) {
+      state.isOpen = !state.isOpen;
+    },
     TOGGLE_ADD_STREAM(state) {
-      state.isStream = !state.isStream;
+      state.isForm = !state.isForm;
     },
   },
   actions: {},

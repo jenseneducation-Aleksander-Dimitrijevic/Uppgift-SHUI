@@ -1,5 +1,5 @@
 <template>
-  <article class="streams" :class="{ show: isStream }">
+  <article class="streams" :class="{ show: isOpen }">
     <h1>Streams</h1>
   </article>
 </template>
@@ -8,8 +8,8 @@
 import { computed } from "@vue/composition-api";
 export default {
   setup(_, { root }) {
-    const isStream = computed(() => root.$store.state.isStream);
-    return { isStream };
+    const isOpen = computed(() => root.$store.state.isOpen);
+    return { isOpen };
   },
 };
 </script>
