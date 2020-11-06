@@ -5,6 +5,14 @@
     <back-drop />
     <app-content>
       <h1>Hello there, {{ user.username }}</h1>
+      <h2>Dina streams</h2>
+      <ul class="list">
+        <li class="list-item" v-for="stream in streams" :key="stream._id">
+          <p>{{ stream.date }}</p>
+          <h3>{{ stream.content }}</h3>
+          <p v-for="(tag, index) in stream.tag" :key="index">#{{ tag }}</p>
+        </li>
+      </ul>
       <button class="btn-primary" @click="toggleForm">Add streams</button>
     </app-content>
   </div>
@@ -27,14 +35,16 @@ export default {
   },
   setup(_, { root }) {
     const user = ref(null);
+    const streams = ref([]);
     onMounted(async () => {
       const RESPONSE = await axios.get("/api/dashboard");
       user.value = RESPONSE.data.user;
+      streams.value = RESPONSE.data.streams;
     });
 
     const toggleForm = () => root.$store.commit("TOGGLE_ADD_STREAM");
 
-    return { user, toggleForm };
+    return { user, toggleForm, streams };
   },
 };
 </script>
@@ -43,6 +53,16 @@ export default {
 /deep/ .main {
   img {
     display: none;
+  }
+}
+
+.list {
+  list-style: none;
+
+  .list-item {
+    padding: 5px;
+    margin: 1rem 0;
+    background: #fff;
   }
 }
 </style>

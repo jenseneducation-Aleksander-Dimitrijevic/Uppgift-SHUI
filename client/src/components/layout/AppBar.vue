@@ -66,6 +66,7 @@ export default {
   }
 
   img {
+    cursor: pointer;
     transition: all 0.3s ease;
     &.addShadow {
       box-shadow: 0 0 10px rgba(#000, 0.2);
