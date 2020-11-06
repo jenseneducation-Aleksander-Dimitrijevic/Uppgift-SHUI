@@ -32,9 +32,7 @@ export default {
       sessionStorage.removeItem("user");
       location.reload();
     };
-
     const isOpen = computed(() => root.$store.state.isOpen);
-
     const addStream = () => {
       root.$store.commit("TOGGLE_SETTINGS");
     };

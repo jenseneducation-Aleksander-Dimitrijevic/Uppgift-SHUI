@@ -6,25 +6,19 @@
     <app-content>
       <h1>Hello there, {{ user.username }}</h1>
       <h2>Dina streams</h2>
-      <ul class="list">
-        <li class="list-item" v-for="stream in streams" :key="stream._id">
-          <p>{{ stream.date }}</p>
-          <h3>{{ stream.content }}</h3>
-          <p v-for="(tag, index) in stream.tag" :key="index">#{{ tag }}</p>
-        </li>
-      </ul>
+      <app-list :streams="streams" />
       <button class="btn-primary" @click="toggleForm">Add streams</button>
     </app-content>
   </div>
 </template>
 
 <script>
-import axios from "axios";
 import AppContent from "@/components/main/AppContent.vue";
 import Settings from "@/components/main/Settings.vue";
 import AddStream from "@/components/main/AddStream.vue";
 import BackDrop from "@/components/layout/BackDrop.vue";
-import { ref, onMounted } from "@vue/composition-api";
+import useFetchStreams from "@/use/useFetchStreams";
+import AppList from "@/components/ui/AppList.vue";
 export default {
   name: "Dashboard",
   components: {
@@ -32,18 +26,11 @@ export default {
     Settings,
     AddStream,
     BackDrop,
+    AppList,
   },
   setup(_, { root }) {
-    const user = ref(null);
-    const streams = ref([]);
-    onMounted(async () => {
-      const RESPONSE = await axios.get("/api/dashboard");
-      user.value = RESPONSE.data.user;
-      streams.value = RESPONSE.data.streams;
-    });
-
     const toggleForm = () => root.$store.commit("TOGGLE_ADD_STREAM");
-
+    const { user, streams } = useFetchStreams();
     return { user, toggleForm, streams };
   },
 };
@@ -51,18 +38,16 @@ export default {
 
 <style lang="scss" scoped>
 /deep/ .main {
+  h2 {
+    color: #fff;
+    font-size: 1.3rem;
+    margin: 2rem 0 0 0;
+  }
   img {
     display: none;
   }
-}
-
-.list {
-  list-style: none;
-
-  .list-item {
-    padding: 5px;
-    margin: 1rem 0;
-    background: #fff;
+  /deep/ ul {
+    margin-top: 1rem;
   }
 }
 </style>
