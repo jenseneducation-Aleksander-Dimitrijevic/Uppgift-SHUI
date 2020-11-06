@@ -9,21 +9,26 @@ const cryptr = new Cryptr(process.env.SECRET);
 
 // const streamsData = require("../data/streams.json");
 
+// Comment out DB insert to intially insert data
 // streamsData.streams.forEach((stream) => {
 //   streamsDB.insert({
-//     id: Date.now(),
 //     content: cryptr.encrypt(stream.content),
+//     date: stream.date,
 //     tag: stream.tag,
 //   });
 // });
 
-// Comment out DB insert to intially insert data
 module.exports = {
   async getAllStreams() {
     const streams = await streamsDB.find({});
-    streams.forEach((stream) => {
-      cryptr.decrypt(stream.content);
+    const newStreams = streams.map((stream) => {
+      const newStream = {
+        tag: stream.tag,
+        date: stream.date,
+        content: cryptr.decrypt(stream.content),
+      };
+      return newStream;
     });
-    return streams;
+    return newStreams;
   },
 };

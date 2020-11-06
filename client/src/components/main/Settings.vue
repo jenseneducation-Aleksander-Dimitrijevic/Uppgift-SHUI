@@ -24,7 +24,7 @@ export default {
   color: #fff;
   height: 100vh;
   position: fixed;
-  padding: 6rem 1rem;
+  padding: 6rem 2rem;
   background: $orange;
   transform: translate3d(0, -100%, 0);
   &.show {
