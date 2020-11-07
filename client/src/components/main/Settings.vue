@@ -1,8 +1,8 @@
 <template>
   <article class="streams" :class="{ show: isOpen }">
     <h1>Streams</h1>
-    <p>Hetaste streams just nu!</p>
-    <app-list :streams="streams" />
+    <p>Hottest streams to follow!</p>
+    <app-list :streams="streams" @select-tag="selectTag" />
   </article>
 </template>
 
@@ -10,6 +10,7 @@
 import { computed } from "@vue/composition-api";
 import useFetchStreams from "@/use/useFetchStreams";
 import AppList from "@/components/ui/AppList.vue";
+import axios from "axios";
 export default {
   components: {
     AppList,
@@ -17,7 +18,11 @@ export default {
   setup(_, { root }) {
     const isOpen = computed(() => root.$store.state.isOpen);
     const { streams } = useFetchStreams();
-    return { isOpen, streams };
+    const selectTag = async (tag) => {
+      const RESPONSE = await axios.post("/api/tags", tag);
+      root.$store.commit("SET_SUBSCRIPTION", RESPONSE.data);
+    };
+    return { isOpen, streams, selectTag };
   },
 };
 </script>

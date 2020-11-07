@@ -3,9 +3,14 @@
     <li class="list-item" v-for="stream in streams" :key="stream._id">
       <p class="date">{{ stream.date }}</p>
       <h3 class="content">{{ stream.content }}</h3>
-      <p class="tags" v-for="(tag, index) in stream.tag" :key="index">
+      <p
+        class="tags"
+        v-for="(tag, index) in stream.tag"
+        :key="index"
+        @click="$emit('select-tag', tag)"
+      >
         #{{ tag }}
-        <span class="remove-tag" v-show="$store.state.isOpen">&times;</span>
+        <span class="remove-tag">&times;</span>
       </p>
     </li>
   </ul>

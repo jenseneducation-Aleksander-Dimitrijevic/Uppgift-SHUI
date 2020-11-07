@@ -7,6 +7,7 @@ export default new Vuex.Store({
   state: {
     isOpen: false,
     isForm: false,
+    channels: [],
   },
   mutations: {
     TOGGLE_SETTINGS(state) {
@@ -14,6 +15,10 @@ export default new Vuex.Store({
     },
     TOGGLE_ADD_STREAM(state) {
       state.isForm = !state.isForm;
+    },
+    SET_SUBSCRIPTION(state, channel) {
+      state.channels = channel;
+      sessionStorage.setItem("channels", JSON.stringify(state.channels));
     },
   },
   actions: {},

@@ -31,4 +31,17 @@ module.exports = {
     });
     return newStreams;
   },
+
+  async getSelectedTags(tag) {
+    const streams = await streamsDB.find({ tag });
+    const newStreams = streams.map((stream) => {
+      const newStream = {
+        tag: stream.tag,
+        date: stream.date,
+        content: cryptr.decrypt(stream.content),
+      };
+      return newStream;
+    });
+    return newStreams;
+  },
 };

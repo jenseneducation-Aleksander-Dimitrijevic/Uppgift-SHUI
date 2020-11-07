@@ -8,6 +8,7 @@ const dashboardRoute = require("./routes/dashboard");
 
 app.use(cors());
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.use("/", usersRouter);
 app.use("/api/dashboard", dashboardRoute);
