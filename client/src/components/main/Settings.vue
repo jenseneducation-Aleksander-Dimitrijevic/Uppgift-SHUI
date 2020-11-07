@@ -19,8 +19,7 @@ export default {
     const isOpen = computed(() => root.$store.state.isOpen);
     const { streams } = useFetchStreams();
     const selectTag = async (tag) => {
-      const RESPONSE = await axios.post("/api/tags", tag);
-      root.$store.commit("SET_SUBSCRIPTION", RESPONSE.data);
+      await axios.post("/api/subscriptions", tag);
     };
     return { isOpen, streams, selectTag };
   },

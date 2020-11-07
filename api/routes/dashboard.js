@@ -1,12 +1,12 @@
 const router = require("express").Router();
 const { verifyToken } = require("./verifyUser");
-const { getAllStreams } = require("../models/Stream");
+const { getUserStreams } = require("../models/Stream");
 
 router.get("/", verifyToken, async (req, res) => {
   if (req.user) {
     res.status(200).json({
       user: req.user,
-      streams: await getAllStreams(),
+      streams: await getUserStreams(),
     });
     return;
   }

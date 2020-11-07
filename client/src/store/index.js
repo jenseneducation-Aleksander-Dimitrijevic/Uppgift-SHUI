@@ -18,7 +18,6 @@ export default new Vuex.Store({
     },
     SET_SUBSCRIPTION(state, channel) {
       state.channels = channel;
-      sessionStorage.setItem("channels", JSON.stringify(state.channels));
     },
   },
   actions: {},

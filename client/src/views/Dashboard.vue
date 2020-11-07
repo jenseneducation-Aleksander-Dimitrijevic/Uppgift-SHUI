@@ -22,7 +22,8 @@ import AddStream from "@/components/main/AddStream.vue";
 import BackDrop from "@/components/layout/BackDrop.vue";
 import useFetchStreams from "@/use/useFetchStreams";
 import AppList from "@/components/ui/AppList.vue";
-import { computed } from "@vue/composition-api";
+import axios from "axios";
+import { computed, onMounted } from "@vue/composition-api";
 export default {
   name: "Dashboard",
   components: {
@@ -36,6 +37,10 @@ export default {
     const toggleForm = () => root.$store.commit("TOGGLE_ADD_STREAM");
     const { user } = useFetchStreams();
     const streams = computed(() => root.$store.state.channels);
+    onMounted(async () => {
+      const RESPONSE = await axios.get("/api/subscriptions");
+      root.$store.commit("SET_SUBSCRIPTION", RESPONSE.data);
+    });
     return { user, toggleForm, streams };
   },
 };
