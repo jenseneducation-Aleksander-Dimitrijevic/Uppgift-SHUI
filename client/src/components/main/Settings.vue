@@ -2,12 +2,20 @@
   <article class="streams" :class="{ show: isOpen }">
     <h1>Streams</h1>
     <p>Hottest streams to follow!</p>
-    <app-list :streams="streams" @select-tag="selectTag" />
+    <app-list :streams="streams" @select-tag="addSubscription" />
+    <ul class="tag-list" v-show="selectedTags.length">
+      <li v-for="(tag, idx) in selectedTags" :key="idx">
+        <span>{{ tag }}</span>
+      </li>
+    </ul>
+    <button class="btn-primary" v-show="selectedTags.length" @click="subscribe">
+      Subscribe
+    </button>
   </article>
 </template>
 
 <script>
-import { computed } from "@vue/composition-api";
+import { computed, ref } from "@vue/composition-api";
 import useFetchStreams from "@/use/useFetchStreams";
 import AppList from "@/components/ui/AppList.vue";
 import axios from "axios";
@@ -16,12 +24,16 @@ export default {
     AppList,
   },
   setup(_, { root }) {
+    const selectedTags = ref([]);
     const isOpen = computed(() => root.$store.state.isOpen);
     const { streams } = useFetchStreams();
-    const selectTag = async (tag) => {
-      await axios.post("/api/subscriptions", tag);
+
+    const addSubscription = async (tag) => selectedTags.value.push(tag);
+    const subscribe = async () => {
+      await axios.post("/api/subscriptions", selectedTags.value);
+      location.reload();
     };
-    return { isOpen, streams, selectTag };
+    return { isOpen, streams, addSubscription, selectedTags, subscribe };
   },
 };
 </script>
@@ -46,6 +58,22 @@ export default {
     transform: translate3d(0, 0, 0);
   }
 
+  .tag-list {
+    gap: 1rem;
+    width: 100%;
+    display: grid;
+    list-style: none;
+    padding-top: 1rem;
+    border-top: 1px solid #fff;
+    grid-template-columns: repeat(3, 1fr);
+
+    li {
+      padding: 5px;
+      border: 1px solid #fff;
+      background: rgba(#fff, 0.3);
+    }
+  }
+
   /deep/ ul {
     height: auto;
     .list-item {
@@ -65,8 +93,8 @@ export default {
         border-radius: 3px;
         align-items: center;
         letter-spacing: 2px;
-        border: 1px solid #fff;
-        background: rgba(#fff, 0.2);
+        border: 1px solid #ccc;
+        background: rgba(#fff, 0.7);
         justify-content: space-between;
 
         .remove-tag {

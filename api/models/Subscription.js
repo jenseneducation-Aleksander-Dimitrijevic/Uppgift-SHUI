@@ -9,19 +9,23 @@ const cryptr = new Cryptr(process.env.SECRET);
 const { streamsDB } = require("./Stream");
 
 module.exports = {
-  async setSubscriptions(tag, userID) {
-    const streams = await streamsDB.find({ tag });
-    return await subscriptions.insert(
-      streams.map((stream) => {
-        const newStream = {
-          tag: stream.tag,
-          date: stream.date,
-          userID,
-          content: stream.content,
-        };
-        return newStream;
-      })
-    );
+  setSubscriptions(tags, userID) {
+    const newTags = tags.map(async (tag) => {
+      const streams = await streamsDB.find({ tag });
+      await subscriptions.insert(
+        streams.map((stream) => {
+          const newStream = {
+            tag: stream.tag,
+            date: stream.date,
+            userID,
+            content: stream.content,
+          };
+          return newStream;
+        })
+      );
+    });
+
+    return newTags;
   },
 
   async getSubscriptions(userID) {

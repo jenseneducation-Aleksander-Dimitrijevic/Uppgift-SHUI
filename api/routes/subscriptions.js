@@ -5,11 +5,8 @@ const {
   getSubscriptions,
 } = require("../models/Subscription");
 
-router.post("/", verifyToken, async (req, res) => {
-  const streams = await setSubscriptions(
-    Object.keys(req.body)[0],
-    req.user.userID
-  );
+router.post("/", verifyToken, (req, res) => {
+  const streams = setSubscriptions(req.body, req.user.userID);
   if (streams) {
     res.status(201).json({ message: "Successful" });
     return;
