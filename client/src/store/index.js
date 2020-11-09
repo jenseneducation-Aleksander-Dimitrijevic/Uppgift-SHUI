@@ -8,6 +8,7 @@ export default new Vuex.Store({
     isOpen: false,
     isForm: false,
     channels: [],
+    isLoading: false,
   },
   mutations: {
     TOGGLE_SETTINGS(state) {
@@ -19,6 +20,7 @@ export default new Vuex.Store({
     SET_SUBSCRIPTION(state, channel) {
       state.channels = channel;
     },
+    SET_LOADING: (state) => (state.isLoading = !state.isLoading),
   },
   actions: {},
   modules: {},

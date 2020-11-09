@@ -12,6 +12,7 @@
       <app-list :streams="streams" />
       <button class="btn-primary" @click="toggleForm">Add streams</button>
     </app-content>
+    <app-spinner />
   </div>
 </template>
 
@@ -21,6 +22,7 @@ import Settings from "@/components/main/Settings.vue";
 import AddStream from "@/components/main/AddStream.vue";
 import BackDrop from "@/components/layout/BackDrop.vue";
 import useFetchStreams from "@/use/useFetchStreams";
+import AppSpinner from "@/components/ui/AppSpinner.vue";
 import AppList from "@/components/ui/AppList.vue";
 import axios from "axios";
 import { computed, onMounted } from "@vue/composition-api";
@@ -32,6 +34,7 @@ export default {
     AddStream,
     BackDrop,
     AppList,
+    AppSpinner,
   },
   setup(_, { root }) {
     const toggleForm = () => root.$store.commit("TOGGLE_ADD_STREAM");

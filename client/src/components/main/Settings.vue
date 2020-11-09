@@ -94,7 +94,7 @@ export default {
         align-items: center;
         letter-spacing: 2px;
         border: 1px solid #ccc;
-        background: rgba(#fff, 0.7);
+        background: rgba(#fff, 0.1);
         justify-content: space-between;
 
         .remove-tag {
