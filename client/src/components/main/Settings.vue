@@ -3,11 +3,14 @@
     <h1>Streams</h1>
     <p>Hottest streams to follow!</p>
     <app-list :streams="streams" @select-tag="addSubscription" />
-    <ul class="tag-list" v-show="selectedTags.length">
-      <li v-for="(tag, idx) in selectedTags" :key="idx">
-        <span>{{ tag }}</span>
-      </li>
-    </ul>
+    <section v-show="selectedTags.length">
+      <p>You follow these channel(s):</p>
+      <ul class="tag-list">
+        <li v-for="(tag, idx) in selectedTags" :key="idx">
+          <span>#{{ tag }}</span>
+        </li>
+      </ul>
+    </section>
     <button class="btn-primary" v-show="selectedTags.length" @click="subscribe">
       Subscribe
     </button>
@@ -15,7 +18,7 @@
 </template>
 
 <script>
-import { computed, ref } from "@vue/composition-api";
+import { computed, onMounted, ref } from "@vue/composition-api";
 import useFetchStreams from "@/use/useFetchStreams";
 import AppList from "@/components/ui/AppList.vue";
 import axios from "axios";
@@ -28,11 +31,22 @@ export default {
     const isOpen = computed(() => root.$store.state.isOpen);
     const { streams } = useFetchStreams();
 
-    const addSubscription = async (tag) => selectedTags.value.push(tag);
+    const addSubscription = async (tag, index) => {
+      streams.value.splice(index, 1);
+      selectedTags.value.push(tag);
+    };
     const subscribe = async () => {
       await axios.post("/api/subscriptions", selectedTags.value);
       location.reload();
     };
+
+    onMounted(async () => {
+      const RESPONSE = await axios.get("/api/subscriptions");
+      selectedTags.value = RESPONSE.data;
+      selectedTags.value = selectedTags.value.map(
+        (selectedTag) => selectedTag.tag
+      );
+    });
     return { isOpen, streams, addSubscription, selectedTags, subscribe };
   },
 };

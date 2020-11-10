@@ -7,7 +7,7 @@
         class="tags"
         v-for="(tag, index) in stream.tag"
         :key="index"
-        @click="$emit('select-tag', tag)"
+        @click="$emit('select-tag', tag, index)"
       >
         #{{ tag }}
         <span class="remove-tag">&times;</span>
