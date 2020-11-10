@@ -12,8 +12,13 @@
       <p>You follow these tags:</p>
       <ul class="tag-list">
         <li v-for="(tag, idx) in selectedTags" :key="idx">
-          #{{ typeof tag === Object ? tag : tag }}
-          <span class="remove-tag" @click="removeTag">&times;</span>
+          #{{ tag }}
+          <span
+            class="remove-tag"
+            v-show="selectedTags.length"
+            @click="removeTag()"
+            >&times;</span
+          >
         </li>
       </ul>
     </section>
