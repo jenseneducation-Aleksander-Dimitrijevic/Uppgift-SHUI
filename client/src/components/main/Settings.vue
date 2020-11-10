@@ -58,7 +58,7 @@ export default {
 
     onMounted(async () => {
       const RESPONSE = await axios.get("/api/subscriptions");
-      selectedTags.value = RESPONSE.data;
+      selectedTags.value = RESPONSE.data.subscriptions;
     });
 
     return {

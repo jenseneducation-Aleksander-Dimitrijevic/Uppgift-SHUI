@@ -7,8 +7,9 @@ const {
 } = require("../models/Subscription");
 
 router.post("/", verifyToken, (req, res) => {
-  const streams = setSubscriptions(req.body, req.user.userID);
-  if (streams) {
+  console.log(req.body);
+  const tags = setSubscriptions(req.body, req.user.userID);
+  if (tags) {
     res.status(201).json({ message: "Successful" });
     return;
   }

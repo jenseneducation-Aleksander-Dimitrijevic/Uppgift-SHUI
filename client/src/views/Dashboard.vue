@@ -37,7 +37,7 @@ export default {
     const { user } = useFetchStreams();
     const streams = computed(() => root.$store.state.channels);
     onMounted(async () => {
-      const RESPONSE = await axios.get("/api/subscriptions");
+      const RESPONSE = await axios.get("/api/dashboard");
       root.$store.commit("SET_SUBSCRIPTION", RESPONSE.data);
     });
     return { user, streams, addStream };

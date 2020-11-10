@@ -6,7 +6,7 @@ router.get("/", verifyToken, async (req, res) => {
   if (req.user) {
     res.status(200).json({
       user: req.user,
-      streams: await getUserStreams(),
+      streams: await getUserStreams(req.user.userID),
     });
     return;
   }

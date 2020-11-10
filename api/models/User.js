@@ -12,6 +12,7 @@ module.exports = {
     if (user) return;
     const newUser = await users.insert({
       username,
+      subscriptions: [],
       password: await bcrypt.hash(password, 10),
     });
     const token = jwt.sign(
@@ -46,4 +47,5 @@ module.exports = {
       token,
     };
   },
+  users,
 };
