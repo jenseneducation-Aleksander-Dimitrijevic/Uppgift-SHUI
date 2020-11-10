@@ -40,4 +40,9 @@ module.exports = {
       return newStream;
     });
   },
+
+  async removeStream(userID) {
+    const stream = await subscriptions.findOne({ userID });
+    return await subscriptions.remove(stream);
+  },
 };

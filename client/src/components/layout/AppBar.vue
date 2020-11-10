@@ -3,11 +3,6 @@
     <img
       :src="require('@/assets/header-logo.png')"
       alt="icon"
-      @click="
-        !$route.meta.requiresAuth
-          ? $router.push({ name: 'Home' }).catch(() => {})
-          : addStream()
-      "
       :class="{ addShadow: isOpen }"
     />
     <span
@@ -33,11 +28,8 @@ export default {
       location.reload();
     };
     const isOpen = computed(() => root.$store.state.isOpen);
-    const addStream = () => {
-      root.$store.commit("TOGGLE_SETTINGS");
-    };
 
-    return { logout, addStream, isOpen };
+    return { logout, isOpen };
   },
 };
 </script>

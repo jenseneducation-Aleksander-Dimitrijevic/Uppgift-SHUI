@@ -1,13 +1,19 @@
 <template>
   <article class="streams" :class="{ show: isOpen }">
-    <h1>Streams</h1>
+    <h1>
+      Streams
+      <div class="close-btn" @click="$store.commit('TOGGLE_SETTINGS')">
+        &times;
+      </div>
+    </h1>
     <p>Hottest streams to follow!</p>
     <app-list :streams="streams" @select-tag="addSubscription" />
     <section v-show="selectedTags.length">
-      <p>You follow these channel(s):</p>
+      <p>You follow these tags:</p>
       <ul class="tag-list">
         <li v-for="(tag, idx) in selectedTags" :key="idx">
-          <span>#{{ tag }}</span>
+          #{{ typeof tag === Object ? tag : tag }}
+          <span class="remove-tag" @click="removeTag">&times;</span>
         </li>
       </ul>
     </section>
@@ -31,23 +37,33 @@ export default {
     const isOpen = computed(() => root.$store.state.isOpen);
     const { streams } = useFetchStreams();
 
-    const addSubscription = async (tag, index) => {
-      streams.value.splice(index, 1);
+    const addSubscription = async (tag) => {
+      streams.value.splice(tag, 1);
       selectedTags.value.push(tag);
     };
+
     const subscribe = async () => {
       await axios.post("/api/subscriptions", selectedTags.value);
       location.reload();
     };
 
+    const removeTag = async () => {
+      await axios.delete("/api/subscriptions");
+    };
+
     onMounted(async () => {
       const RESPONSE = await axios.get("/api/subscriptions");
       selectedTags.value = RESPONSE.data;
-      selectedTags.value = selectedTags.value.map(
-        (selectedTag) => selectedTag.tag
-      );
     });
-    return { isOpen, streams, addSubscription, selectedTags, subscribe };
+
+    return {
+      isOpen,
+      streams,
+      addSubscription,
+      selectedTags,
+      subscribe,
+      removeTag,
+    };
   },
 };
 </script>
@@ -63,7 +79,7 @@ export default {
   height: 100vh;
   overflow: auto;
   position: fixed;
-  padding: 5rem 2rem;
+  padding: 4rem 2rem;
   background: $orange;
   transform: translate3d(0, -100%, 0);
   &.show {
@@ -72,14 +88,24 @@ export default {
     transform: translate3d(0, 0, 0);
   }
 
+  h1 {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    .close-btn {
+      color: #fff;
+      font-size: 3rem;
+    }
+  }
+
   .tag-list {
     gap: 1rem;
     width: 100%;
-    display: grid;
+    display: flex;
+    flex-wrap: wrap;
     list-style: none;
     padding-top: 1rem;
     border-top: 1px solid #fff;
-    grid-template-columns: repeat(3, 1fr);
 
     li {
       padding: 5px;

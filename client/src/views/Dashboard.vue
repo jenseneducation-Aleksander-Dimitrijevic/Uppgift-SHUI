@@ -2,7 +2,6 @@
   <div v-if="user">
     <Settings />
     <add-stream />
-    <back-drop />
     <app-content>
       <h1>Hello there, {{ user.username }}</h1>
       <p v-if="!streams.length">
@@ -10,9 +9,8 @@
       </p>
       <h2 v-else>Dina streams</h2>
       <app-list :streams="streams" />
-      <button class="btn-primary" @click="toggleForm">Add streams</button>
+      <button class="btn-primary" @click="addStream()">Add streams</button>
     </app-content>
-    <app-spinner />
   </div>
 </template>
 
@@ -20,9 +18,7 @@
 import AppContent from "@/components/main/AppContent.vue";
 import Settings from "@/components/main/Settings.vue";
 import AddStream from "@/components/main/AddStream.vue";
-import BackDrop from "@/components/layout/BackDrop.vue";
 import useFetchStreams from "@/use/useFetchStreams";
-import AppSpinner from "@/components/ui/AppSpinner.vue";
 import AppList from "@/components/ui/AppList.vue";
 import axios from "axios";
 import { computed, onMounted } from "@vue/composition-api";
@@ -32,19 +28,19 @@ export default {
     AppContent,
     Settings,
     AddStream,
-    BackDrop,
     AppList,
-    AppSpinner,
   },
   setup(_, { root }) {
-    const toggleForm = () => root.$store.commit("TOGGLE_ADD_STREAM");
+    const addStream = () => {
+      root.$store.commit("TOGGLE_SETTINGS");
+    };
     const { user } = useFetchStreams();
     const streams = computed(() => root.$store.state.channels);
     onMounted(async () => {
       const RESPONSE = await axios.get("/api/subscriptions");
       root.$store.commit("SET_SUBSCRIPTION", RESPONSE.data);
     });
-    return { user, toggleForm, streams };
+    return { user, streams, addStream };
   },
 };
 </script>
