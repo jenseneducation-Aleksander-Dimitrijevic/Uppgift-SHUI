@@ -10,7 +10,6 @@
         @click="$emit('select-tag', tag, index)"
       >
         #{{ tag }}
-        <span class="remove-tag">&times;</span>
       </p>
     </li>
   </ul>

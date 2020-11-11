@@ -6,8 +6,9 @@
     <section v-show="selectedTags.length">
       <p>You follow these channel(s):</p>
       <ul class="tag-list">
-        <li v-for="(tag, idx) in selectedTags" :key="idx">
-          <span>#{{ tag }}</span>
+        <li v-for="(selectedTag, idx) in selectedTags" :key="idx">
+          #{{ selectedTag.tag }}
+          <span class="remove-tag">&times;</span>
         </li>
       </ul>
     </section>
@@ -43,9 +44,6 @@ export default {
     onMounted(async () => {
       const RESPONSE = await axios.get("/api/subscriptions");
       selectedTags.value = RESPONSE.data;
-      selectedTags.value = selectedTags.value.map(
-        (selectedTag) => selectedTag.tag
-      );
     });
     return { isOpen, streams, addSubscription, selectedTags, subscribe };
   },
@@ -73,18 +71,19 @@ export default {
   }
 
   .tag-list {
-    gap: 1rem;
     width: 100%;
-    display: grid;
     list-style: none;
     padding-top: 1rem;
     border-top: 1px solid #fff;
-    grid-template-columns: repeat(3, 1fr);
 
     li {
+      flex-grow: 1;
       padding: 5px;
+      display: flex;
+      margin: 1rem 0;
       border: 1px solid #fff;
       background: rgba(#fff, 0.3);
+      justify-content: space-between;
     }
   }
 

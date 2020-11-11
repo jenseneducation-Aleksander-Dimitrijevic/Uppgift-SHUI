@@ -17,6 +17,7 @@ router.post("/", verifyToken, (req, res) => {
 router.get("/", verifyToken, async (req, res) => {
   const streams = await getSubscriptions(req.user.userID);
   if (streams) {
+    console.log(streams.map((tag) => tag));
     res.status(200).json(streams);
     return;
   }
