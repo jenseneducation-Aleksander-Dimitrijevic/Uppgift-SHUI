@@ -20,20 +20,16 @@ const cryptr = new Cryptr(process.env.SECRET);
 // });
 
 module.exports = {
-  async getUserStreams(userID) {
-    const user = await users.findOne({ _id: userID });
-    if (!user) return;
-    const subscriptions = user.subscriptions.map(async (sub) => {
-      const streams = await streamsDB.find({ tag: sub });
-      return streams.map((stream) => {
-        return {
-          tag: stream.tag,
-          date: stream.date,
-          content: cryptr.decrypt(stream.content),
-        };
-      });
+  async getUserStreams() {
+    const streams = await streamsDB.find({});
+    const newStreams = streams.map((stream) => {
+      return {
+        tag: stream.tag,
+        date: stream.date,
+        content: cryptr.decrypt(stream.content),
+      };
     });
-    return subscriptions;
+    return newStreams;
   },
   streamsDB,
 };

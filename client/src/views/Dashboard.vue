@@ -38,6 +38,7 @@ export default {
     const streams = computed(() => root.$store.state.channels);
     onMounted(async () => {
       const RESPONSE = await axios.get("/api/dashboard");
+      console.log(RESPONSE.data);
       root.$store.commit("SET_SUBSCRIPTION", RESPONSE.data);
     });
     return { user, streams, addStream };

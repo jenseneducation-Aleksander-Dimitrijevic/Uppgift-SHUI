@@ -6,8 +6,8 @@ const subscriptions = new Datastore({
 const Cryptr = require("cryptr");
 require("dotenv/config");
 const cryptr = new Cryptr(process.env.SECRET);
-const { streamsDB } = require("./Stream");
 const { users } = require("./User");
+const { streamsDB } = require("./Stream");
 
 module.exports = {
   async setSubscriptions(tags, userID) {
@@ -37,17 +37,10 @@ module.exports = {
 
   async getSubscriptions(userID) {
     const user = await users.findOne({ _id: userID });
-    // return streams.map((stream) => {
-    //   const newStream = {
-    //     tag: stream.tag,
-    //     date: stream.date,
-    //     userID,
-    //     content: cryptr.decrypt(stream.content),
-    //   };
-    //   return newStream;
-    // });
     if (!user) return;
-    return user;
+    return user.subscriptions.map(async (sub) => {
+      return await streamsDB.find({ tag: sub });
+    });
   },
 
   async removeStream(userID) {
