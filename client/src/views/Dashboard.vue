@@ -8,7 +8,11 @@
         You dont follow any channels
       </p>
       <h2 v-else>Dina streams</h2>
-      <app-list :streams="streams" />
+      <ul>
+        <li v-for="(stream, idx) in streams" :key="idx">
+          {{ stream }}
+        </li>
+      </ul>
       <button class="btn-primary" @click="addStream()">Add streams</button>
     </app-content>
   </div>
@@ -19,27 +23,26 @@ import AppContent from "@/components/main/AppContent.vue";
 import Settings from "@/components/main/Settings.vue";
 import AddStream from "@/components/main/AddStream.vue";
 import useFetchStreams from "@/use/useFetchStreams";
-import AppList from "@/components/ui/AppList.vue";
 import axios from "axios";
-import { computed, onMounted } from "@vue/composition-api";
+import { onMounted, ref } from "@vue/composition-api";
 export default {
   name: "Dashboard",
   components: {
     AppContent,
     Settings,
     AddStream,
-    AppList,
   },
   setup(_, { root }) {
     const addStream = () => {
       root.$store.commit("TOGGLE_SETTINGS");
     };
     const { user } = useFetchStreams();
-    const streams = computed(() => root.$store.state.channels);
+    const streams = ref([]);
+
     onMounted(async () => {
-      const RESPONSE = await axios.get("/api/dashboard");
+      const RESPONSE = await axios.get("/api/subscriptions");
+      streams.value = RESPONSE.data;
       console.log(RESPONSE.data);
-      root.$store.commit("SET_SUBSCRIPTION", RESPONSE.data);
     });
     return { user, streams, addStream };
   },
@@ -61,18 +64,29 @@ export default {
   img {
     display: none;
   }
-  /deep/ ul {
-    margin-top: 1rem;
+  ul {
+    list-style: none;
+    margin-top: 2rem;
 
-    p {
-      color: #333;
-      margin-top: 0;
-      text-align: left;
-
-      .remove-tag {
-        display: none;
-      }
+    li {
+      color: #fff;
+      padding: 5px;
+      display: inline-block;
+      border: 1px solid #fff;
     }
   }
+  // /deep/ ul {
+  //   margin-top: 1rem;
+
+  //   p {
+  //     color: #333;
+  //     margin-top: 0;
+  //     text-align: left;
+
+  //     .remove-tag {
+  //       display: none;
+  //     }
+  //   }
+  // }
 }
 </style>

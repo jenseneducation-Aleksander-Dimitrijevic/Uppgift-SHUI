@@ -1,8 +1,11 @@
 const Datastore = require("nedb-promise");
 const users = new Datastore({ filename: "./db/users.db", autoload: true });
+const { streamsDB } = require("./Stream");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 require("dotenv/config");
+const Cryptr = require("cryptr");
+const cryptr = new Cryptr(process.env.SECRET);
 
 module.exports = {
   async register(credentials) {
@@ -47,5 +50,18 @@ module.exports = {
       token,
     };
   },
-  users,
+
+  async setSubscription(tags, userID) {
+    const user = await users.findOne({ _id: userID });
+    if (!user) return;
+    await users.update(user, {
+      $push: { subscriptions: { $each: tags } },
+    });
+  },
+
+  async getSubscriptions(userID) {
+    const user = await users.findOne({ _id: userID });
+    if (!user) return;
+    user.subscriptions.forEach((sub, idx) => console.log(idx, sub));
+  },
 };

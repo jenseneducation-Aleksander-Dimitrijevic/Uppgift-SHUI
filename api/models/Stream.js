@@ -3,7 +3,6 @@ const streamsDB = new Datastore({
   filename: "./db/streams.db",
   autoload: true,
 });
-const { users } = require("./User");
 const Cryptr = require("cryptr");
 require("dotenv/config");
 const cryptr = new Cryptr(process.env.SECRET);
