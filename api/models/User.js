@@ -79,9 +79,12 @@ module.exports = {
   async removeSubscription(tag, userID) {
     const user = await users.findOne({ _id: userID });
     if (!user) return;
-    const deletedSub = user.subscriptions.filter(
-      (sub) => sub !== tag.toString()
-    );
-    await users.update(user, { $set: { subscriptions: deletedSub } });
+    let deletedSubs = user.subscriptions.filter((el) => el !== tag.toString());
+    if (deletedSubs.includes(tag.toString())) deletedSubs = [];
+    await users.update(user, { $set: { subscriptions: deletedSubs } });
+  },
+
+  async removeUser(userID) {
+    return await users.remove({ _id: userID });
   },
 };

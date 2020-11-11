@@ -9,6 +9,7 @@
     <p>Hottest streams to follow!</p>
     <app-list :streams="streams" @select-tag="addSubscription" />
     <section v-show="selectedTags.length">
+      <p>Added tags:</p>
       <ul class="tag-list">
         <li v-for="(tag, idx) in selectedTags" :key="idx">#{{ tag }}</li>
       </ul>
@@ -29,6 +30,9 @@
     </section>
     <button class="btn-primary" v-show="selectedTags.length" @click="subscribe">
       Subscribe
+    </button>
+    <button class="btn-primary" @click="removeUser">
+      Shit, theyre on to me!
     </button>
   </article>
 </template>
@@ -70,6 +74,12 @@ export default {
       }
     };
 
+    const removeUser = () => {
+      axios.delete("/api/delete");
+      sessionStorage.removeItem("user");
+      location.reload();
+    };
+
     onMounted(async () => {
       const RESPONSE = await axios.get("/api/subscriptions");
       subscriptions.value = RESPONSE.data.flat();
@@ -82,6 +92,7 @@ export default {
       selectedTags,
       subscribe,
       removeSub,
+      removeUser,
       subscriptions,
     };
   },

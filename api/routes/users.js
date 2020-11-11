@@ -2,6 +2,7 @@ const router = require("express").Router();
 const {
   login,
   register,
+  removeUser,
   setSubscription,
   getSubscriptions,
   removeSubscription,
@@ -51,6 +52,15 @@ router.delete("/", verifyToken, async (req, res) => {
     return;
   }
   res.status(401).json({ error: "Not authorized" });
+});
+
+router.delete("/api/delete", verifyToken, async (req, res) => {
+  const removedUser = await removeUser(req.user.userID);
+  if (removedUser) {
+    res.json({ message: "Successful" });
+    return;
+  }
+  res.status(401);
 });
 
 module.exports = router;
