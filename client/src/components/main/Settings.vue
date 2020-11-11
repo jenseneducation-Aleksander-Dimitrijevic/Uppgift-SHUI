@@ -10,28 +10,20 @@
     <app-list :streams="streams" @select-tag="addSubscription" />
     <section v-show="selectedTags.length">
       <ul class="tag-list">
-        <li v-for="(tag, idx) in selectedTags" :key="idx">
-          #{{ tag }}
-          <span
-            class="remove-tag"
-            v-show="subscriptions.length"
-            @click="removeTag()"
-            >&times;</span
-          >
-        </li>
+        <li v-for="(tag, idx) in selectedTags" :key="idx">#{{ tag }}</li>
       </ul>
     </section>
     <section v-show="subscriptions.length">
       <p>You follow these tags:</p>
       <ul class="tag-list">
-        <li v-for="(tag, idx) in subscriptions" :key="idx">
-          #{{ tag }}
-          <span
-            class="remove-tag"
-            v-show="subscriptions.length"
-            @click="removeTag()"
-            >&times;</span
-          >
+        <li v-for="(subscription, idx) in subscriptions" :key="idx">
+          <p v-for="(tag, idx) in subscription.tag" :key="idx">
+            #{{ tag
+            }}<span
+              class="lnr lnr-trash"
+              @click="removeSub(subscription)"
+            ></span>
+          </p>
         </li>
       </ul>
     </section>
@@ -59,7 +51,6 @@ export default {
     const addSubscription = async (tag) => {
       streams.value.splice(tag, 1);
       selectedTags.value.push(tag);
-      console.log(selectedTags.value);
     };
 
     const subscribe = () => {
@@ -67,13 +58,21 @@ export default {
       location.reload();
     };
 
-    const removeTag = async () => {
-      await axios.delete("/api/subscriptions");
+    const removeSub = (sub) => {
+      if (confirm("Remove subscription?")) {
+        axios.delete("/api/subscriptions", {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          data: sub.tag,
+        });
+        location.reload();
+      }
     };
 
     onMounted(async () => {
       const RESPONSE = await axios.get("/api/subscriptions");
-      subscriptions.value = RESPONSE.data;
+      subscriptions.value = RESPONSE.data.flat();
     });
 
     return {
@@ -82,7 +81,7 @@ export default {
       addSubscription,
       selectedTags,
       subscribe,
-      removeTag,
+      removeSub,
       subscriptions,
     };
   },
@@ -120,18 +119,22 @@ export default {
   }
 
   .tag-list {
-    gap: 1rem;
-    width: 100%;
-    display: flex;
-    flex-wrap: wrap;
     padding: 1rem 0;
     list-style: none;
     border-top: 1px solid #fff;
 
     li {
-      padding: 5px;
-      border: 1px solid #fff;
-      background: rgba(#fff, 0.3);
+      gap: 1rem;
+      display: block;
+      p {
+        padding: 5px;
+        display: flex;
+        margin: 1rem 0;
+        align-items: center;
+        border: 1px solid #fff;
+        background: rgba(#fff, 0.3);
+        justify-content: space-between;
+      }
     }
   }
 

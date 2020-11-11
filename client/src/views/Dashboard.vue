@@ -10,7 +10,11 @@
       <h2 v-else>Dina streams</h2>
       <ul>
         <li v-for="(stream, idx) in streams" :key="idx">
-          {{ stream }}
+          <p class="date">{{ stream.date }}</p>
+          <p class="content">{{ stream.content }}</p>
+          <p class="tags" v-for="(item, idx) in stream.tag" :key="idx">
+            <span>#{{ item }}</span>
+          </p>
         </li>
       </ul>
       <button class="btn-primary" @click="addStream()">Add streams</button>
@@ -41,7 +45,7 @@ export default {
 
     onMounted(async () => {
       const RESPONSE = await axios.get("/api/subscriptions");
-      streams.value = RESPONSE.data;
+      streams.value = RESPONSE.data.flat();
     });
     return { user, streams, addStream };
   },
@@ -64,28 +68,42 @@ export default {
     display: none;
   }
   ul {
+    height: 300px;
+    overflow: auto;
     list-style: none;
     margin-top: 2rem;
 
     li {
       color: #fff;
-      padding: 5px;
+      padding: 1rem;
+      margin: 1rem 0;
+      background: #fff;
       display: inline-block;
       border: 1px solid #fff;
+
+      .content {
+        margin: 1rem 0;
+      }
+
+      .tags {
+        font-size: 0.8rem;
+        text-align: right;
+        font-style: italic;
+      }
     }
   }
-  // /deep/ ul {
-  //   margin-top: 1rem;
+  /deep/ ul {
+    margin-top: 1rem;
 
-  //   p {
-  //     color: #333;
-  //     margin-top: 0;
-  //     text-align: left;
+    p {
+      color: #333;
+      margin-top: 0;
+      text-align: left;
 
-  //     .remove-tag {
-  //       display: none;
-  //     }
-  //   }
-  // }
+      .remove-tag {
+        display: none;
+      }
+    }
+  }
 }
 </style>

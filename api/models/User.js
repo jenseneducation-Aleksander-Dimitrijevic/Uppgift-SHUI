@@ -63,7 +63,6 @@ module.exports = {
     const user = await users.findOne({ _id: userID });
     if (!user) return;
     const userStreams = user.subscriptions.map(async (sub) => {
-      console.log(sub);
       const streams = await streamsDB.find({ tag: sub });
       if (!streams) return;
       return streams.map((stream) => {
@@ -75,5 +74,14 @@ module.exports = {
       });
     });
     return await Promise.all(userStreams);
+  },
+
+  async removeSubscription(tag, userID) {
+    const user = await users.findOne({ _id: userID });
+    if (!user) return;
+    const deletedSub = user.subscriptions.filter(
+      (sub) => sub !== tag.toString()
+    );
+    await users.update(user, { $set: { subscriptions: deletedSub } });
   },
 };
