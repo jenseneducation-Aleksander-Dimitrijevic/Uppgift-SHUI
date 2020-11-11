@@ -3,13 +3,13 @@
     {
       "id": 1,
       "content": "Saker händer här och där. Elakingar på spårvagnarna vid Brunnsparken. Se till att vara på plats den tiden, var försiktiga.",
-      "tag": ["gothenburg", "tram", "urgent"],
+      "tag": ["gothenburg"],
       "date": "måndag 3 Nov, 09:23"
     },
     {
       "id": 2,
       "content": "ICA Trumpenten har stängt, jag repeterar. ICA Trumpenten har spelat sitt susta tut! Var försiktiga där ute, detta håller på att balla ur!",
-      "tag": ["boras", "urgent"],
+      "tag": ["boras"],
       "date": "måndag 3 Nov, 12:21"
     },
     {

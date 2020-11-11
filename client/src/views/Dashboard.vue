@@ -2,17 +2,23 @@
   <div v-if="user">
     <Settings />
     <add-stream />
-    <back-drop />
     <app-content>
       <h1>Hello there, {{ user.username }}</h1>
       <p v-if="!streams.length">
         You dont follow any channels
       </p>
       <h2 v-else>Dina streams</h2>
-      <app-list :streams="streams" />
-      <button class="btn-primary" @click="toggleForm">Add streams</button>
+      <ul>
+        <li v-for="(stream, idx) in streams" :key="idx">
+          <p class="date">{{ stream.date }}</p>
+          <p class="content">{{ stream.content }}</p>
+          <p class="tags" v-for="(item, idx) in stream.tag" :key="idx">
+            <span>#{{ item }}</span>
+          </p>
+        </li>
+      </ul>
+      <button class="btn-primary" @click="addStream()">Add streams</button>
     </app-content>
-    <app-spinner />
   </div>
 </template>
 
@@ -20,31 +26,28 @@
 import AppContent from "@/components/main/AppContent.vue";
 import Settings from "@/components/main/Settings.vue";
 import AddStream from "@/components/main/AddStream.vue";
-import BackDrop from "@/components/layout/BackDrop.vue";
 import useFetchStreams from "@/use/useFetchStreams";
-import AppSpinner from "@/components/ui/AppSpinner.vue";
-import AppList from "@/components/ui/AppList.vue";
 import axios from "axios";
-import { computed, onMounted } from "@vue/composition-api";
+import { onMounted, ref } from "@vue/composition-api";
 export default {
   name: "Dashboard",
   components: {
     AppContent,
     Settings,
     AddStream,
-    BackDrop,
-    AppList,
-    AppSpinner,
   },
   setup(_, { root }) {
-    const toggleForm = () => root.$store.commit("TOGGLE_ADD_STREAM");
+    const addStream = () => {
+      root.$store.commit("TOGGLE_SETTINGS");
+    };
     const { user } = useFetchStreams();
-    const streams = computed(() => root.$store.state.channels);
+    const streams = ref([]);
+
     onMounted(async () => {
       const RESPONSE = await axios.get("/api/subscriptions");
-      root.$store.commit("SET_SUBSCRIPTION", RESPONSE.data);
+      streams.value = RESPONSE.data.flat();
     });
-    return { user, toggleForm, streams };
+    return { user, streams, addStream };
   },
 };
 </script>
@@ -63,6 +66,31 @@ export default {
   }
   img {
     display: none;
+  }
+  ul {
+    height: 300px;
+    overflow: auto;
+    list-style: none;
+    margin-top: 2rem;
+
+    li {
+      color: #fff;
+      padding: 1rem;
+      margin: 1rem 0;
+      background: #fff;
+      display: inline-block;
+      border: 1px solid #fff;
+
+      .content {
+        margin: 1rem 0;
+      }
+
+      .tags {
+        font-size: 0.8rem;
+        text-align: right;
+        font-style: italic;
+      }
+    }
   }
   /deep/ ul {
     margin-top: 1rem;
