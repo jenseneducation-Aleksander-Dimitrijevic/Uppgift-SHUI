@@ -53,6 +53,13 @@ export default {
     const { streams } = useFetchStreams();
 
     const addSubscription = async (tag) => {
+      const checkIfSubscribed = subscriptions.value.some((el) =>
+        el.tag.includes(tag)
+      );
+      if (checkIfSubscribed) {
+        alert("Youre already subscribed");
+        return;
+      }
       streams.value.splice(tag, 1);
       selectedTags.value.push(tag);
     };
