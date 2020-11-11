@@ -4,7 +4,7 @@ Denna app använder sig av **Docker compose** (kräver docker desktop) för att 
 Skriv in **docker-compose up --build** för att bygga och starta image/containers.
 
 ## Installation
-Innan du kan börja använda appen så behöver du efter att du laddat ner repot lägga till en .env fil inuti **api** undermappen med en innehållande secret - key. Sedan krävs det att
+Innan du kan börja använda appen så behöver du efter att du laddat ner repot (main-branch) lägga till en .env fil inuti **api** undermappen med en innehållande secret - key. Sedan krävs det att
 du av-kommenterar raderna på Stream.js inuti models/api undermapparna då detta initialt lägger in hårdkodad data som sedan kan simuleras som "streams". Värt att påpeka är att det räcker med att av-kommentera, spara och sedan kommentera av dessa rader igen så att data inte läggs in i databasen för varje gång man sparar en fil via backend.
 
 ## Hur fungerar appen?
