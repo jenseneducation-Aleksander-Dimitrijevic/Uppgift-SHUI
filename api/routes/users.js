@@ -7,7 +7,7 @@ const {
 } = require("../models/User");
 const { verifyToken } = require("./verifyUser");
 
-router.post("/register", async (req, res) => {
+router.post("/api/register", async (req, res) => {
   const user = await register(req.body);
   if (user) {
     res.status(201).json(user);
@@ -16,7 +16,7 @@ router.post("/register", async (req, res) => {
   res.status(500).json({ error: "Credentials not valid" });
 });
 
-router.post("/login", async (req, res) => {
+router.post("/api/login", async (req, res) => {
   const user = await login(req.body);
   if (user) {
     res.status(200).json(user);
@@ -25,7 +25,7 @@ router.post("/login", async (req, res) => {
   res.status(500).json({ error: "Credentials not valid" });
 });
 
-router.post("/subscriptions", verifyToken, async (req, res) => {
+router.post("/", verifyToken, async (req, res) => {
   const tags = await setSubscription(req.body, req.user.userID);
   if (tags) {
     res.status(201).json({ message: "Successful" });
@@ -34,10 +34,10 @@ router.post("/subscriptions", verifyToken, async (req, res) => {
   res.status(401).json({ error: "Not authorized" });
 });
 
-router.get("/subscriptions", verifyToken, async (req, res) => {
+router.get("/", verifyToken, async (req, res) => {
   const subscriptions = await getSubscriptions(req.user.userID);
   if (subscriptions) {
-    res.status(201).json(subscriptions);
+    res.status(200).json(subscriptions);
     return;
   }
   res.status(401).json({ error: "Not authorized" });

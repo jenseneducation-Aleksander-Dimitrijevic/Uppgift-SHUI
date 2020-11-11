@@ -62,6 +62,18 @@ module.exports = {
   async getSubscriptions(userID) {
     const user = await users.findOne({ _id: userID });
     if (!user) return;
-    user.subscriptions.forEach((sub, idx) => console.log(idx, sub));
+    const userStreams = user.subscriptions.map(async (sub) => {
+      console.log(sub);
+      const streams = await streamsDB.find({ tag: sub });
+      if (!streams) return;
+      return streams.map((stream) => {
+        return {
+          tag: stream.tag,
+          date: stream.date,
+          content: cryptr.decrypt(stream.content),
+        };
+      });
+    });
+    return await Promise.all(userStreams);
   },
 };

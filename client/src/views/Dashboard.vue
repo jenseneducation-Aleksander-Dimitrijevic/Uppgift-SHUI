@@ -42,7 +42,6 @@ export default {
     onMounted(async () => {
       const RESPONSE = await axios.get("/api/subscriptions");
       streams.value = RESPONSE.data;
-      console.log(RESPONSE.data);
     });
     return { user, streams, addStream };
   },

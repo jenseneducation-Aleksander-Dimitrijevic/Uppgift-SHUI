@@ -9,13 +9,26 @@
     <p>Hottest streams to follow!</p>
     <app-list :streams="streams" @select-tag="addSubscription" />
     <section v-show="selectedTags.length">
-      <p>You follow these tags:</p>
       <ul class="tag-list">
         <li v-for="(tag, idx) in selectedTags" :key="idx">
           #{{ tag }}
           <span
             class="remove-tag"
-            v-show="selectedTags.length"
+            v-show="subscriptions.length"
+            @click="removeTag()"
+            >&times;</span
+          >
+        </li>
+      </ul>
+    </section>
+    <section v-show="subscriptions.length">
+      <p>You follow these tags:</p>
+      <ul class="tag-list">
+        <li v-for="(tag, idx) in subscriptions" :key="idx">
+          #{{ tag }}
+          <span
+            class="remove-tag"
+            v-show="subscriptions.length"
             @click="removeTag()"
             >&times;</span
           >
@@ -29,7 +42,7 @@
 </template>
 
 <script>
-import { computed, onMounted, ref } from "@vue/composition-api";
+import { onMounted, computed, ref } from "@vue/composition-api";
 import useFetchStreams from "@/use/useFetchStreams";
 import AppList from "@/components/ui/AppList.vue";
 import axios from "axios";
@@ -39,16 +52,18 @@ export default {
   },
   setup(_, { root }) {
     const selectedTags = ref([]);
+    const subscriptions = ref([]);
     const isOpen = computed(() => root.$store.state.isOpen);
     const { streams } = useFetchStreams();
 
     const addSubscription = async (tag) => {
       streams.value.splice(tag, 1);
       selectedTags.value.push(tag);
+      console.log(selectedTags.value);
     };
 
-    const subscribe = async () => {
-      await axios.post("/api/subscriptions", selectedTags.value);
+    const subscribe = () => {
+      axios.post("/api/subscriptions", selectedTags.value);
       location.reload();
     };
 
@@ -58,7 +73,7 @@ export default {
 
     onMounted(async () => {
       const RESPONSE = await axios.get("/api/subscriptions");
-      selectedTags.value = RESPONSE.data.subscriptions;
+      subscriptions.value = RESPONSE.data;
     });
 
     return {
@@ -68,6 +83,7 @@ export default {
       selectedTags,
       subscribe,
       removeTag,
+      subscriptions,
     };
   },
 };
@@ -108,8 +124,8 @@ export default {
     width: 100%;
     display: flex;
     flex-wrap: wrap;
+    padding: 1rem 0;
     list-style: none;
-    padding-top: 1rem;
     border-top: 1px solid #fff;
 
     li {
